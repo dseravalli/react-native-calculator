@@ -5,6 +5,7 @@ var {
   AppRegistry,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } = React;
 
@@ -70,15 +71,21 @@ var Calculator = React.createClass({
 var CalculatorButton = React.createClass({
   render: function () {
     return (
-      <View style={[styles.button, this.props.text === '0' && styles.zeroButton]}>
-        <Text style={styles.buttonText} onPress={this.onPressButton}>
-          {this.props.text}
-        </Text>
-      </View>
+      <TouchableHighlight
+        style={[styles.button, this.props.text === '0' && styles.zeroButton]}
+        onPress={this._onPressButton}>
+
+        <View>
+          <Text style={styles.buttonText}>
+            {this.props.text}
+          </Text>
+        </View>
+
+      </TouchableHighlight>
     );
   },
 
-  onPressButton: function () {
+  _onPressButton: function () {
     console.log(this.props.text);
   }
 });
