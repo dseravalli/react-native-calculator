@@ -27,23 +27,38 @@ var Calculator = React.createClass({
         <Text style={styles.display}>{this.state.output}</Text>
 
         <View style={styles.buttonPad}>
-          <CalculatorButton text={'C'} />
-          <CalculatorButton text={divisionSymbol} />
-          <CalculatorButton text={'7'} />
-          <CalculatorButton text={'8'} />
-          <CalculatorButton text={'9'} />
-          <CalculatorButton text={multiplicationSymbol} />
-          <CalculatorButton text={'4'} />
-          <CalculatorButton text={'5'} />
-          <CalculatorButton text={'6'} />
-          <CalculatorButton text={minusSymbol} />
-          <CalculatorButton text={'1'} />
-          <CalculatorButton text={'2'} />
-          <CalculatorButton text={'3'} />
-          <CalculatorButton text={plusSymbol} />
-          <CalculatorButton text={'0'} />
-          <CalculatorButton text={'.'} />
-          <CalculatorButton text={equalSymbol} />
+
+          <View>
+            <CalculatorButton text={'C'} />
+            <CalculatorButton text={'7'} />
+            <CalculatorButton text={'4'} />
+            <CalculatorButton text={'1'} />
+            <CalculatorButton text={'0'} />
+          </View>
+
+          <View>
+            <BlankCell />
+            <CalculatorButton text={'8'} />
+            <CalculatorButton text={'5'} />
+            <CalculatorButton text={'2'} />
+          </View>
+
+          <View>
+            <BlankCell />
+            <CalculatorButton text={'9'} />
+            <CalculatorButton text={'6'} />
+            <CalculatorButton text={'3'} />
+            <CalculatorButton text={'.'} />
+          </View>
+
+          <View>
+            <CalculatorButton text={divisionSymbol} />
+            <CalculatorButton text={multiplicationSymbol} />
+            <CalculatorButton text={minusSymbol} />
+            <CalculatorButton text={plusSymbol} />
+            <CalculatorButton text={equalSymbol} />
+          </View>
+
         </View>
 
       </View>
@@ -55,7 +70,7 @@ var Calculator = React.createClass({
 var CalculatorButton = React.createClass({
   render: function () {
     return (
-      <View style={styles.button}>
+      <View style={[styles.button, this.props.text === '0' && styles.zeroButton]}>
         <Text style={styles.buttonText} onPress={this.onPressButton}>
           {this.props.text}
         </Text>
@@ -68,17 +83,28 @@ var CalculatorButton = React.createClass({
   }
 });
 
+var BlankCell = React.createClass({
+  render: function () {
+    return ( <View style={styles.blankCell} /> );
+  }
+});
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 10
+    padding: 10,
+    alignItems: 'center'
   },
   buttonPad: {
     flex: 1,
     width: 245,
     flexDirection: 'row',
     flexWrap: 'wrap'
+  },
+  blankCell: {
+    width: 50,
+    height: 50,
+    margin: 5
   },
   button: {
     width: 50,
@@ -92,9 +118,14 @@ var styles = StyleSheet.create({
   buttonText: {
     fontSize: 25
   },
+  zeroButton: {
+    // width: 100,
+  },
   display: {
     textAlign: 'right',
     fontSize: 30,
+    width: 245,
+    padding: 5,
     margin: 40
   }
 });
