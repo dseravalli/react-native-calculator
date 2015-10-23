@@ -14,11 +14,18 @@ var multiplicationSymbol = '\u00d7';
 var minusSymbol = '\u2212';
 var plusSymbol = '\u002b';
 var equalSymbol = '\u003d';
+var plusMinusSymbol = '\u00b1';
 
 var Calculator = React.createClass({
 
   getInitialState: function () {
     return { output: 0 };
+  },
+
+  onButtonPress: function (button) {
+    console.log(button);
+    var output = this.state.output + button + '';
+    this.setState({ output: output });
   },
 
   render: function() {
@@ -30,52 +37,57 @@ var Calculator = React.createClass({
         <View style={styles.buttonPad}>
 
           <View>
-            <CalculatorButton text={'C'} />
-            <CalculatorButton text={'7'} />
-            <CalculatorButton text={'4'} />
-            <CalculatorButton text={'1'} />
-            <CalculatorButton text={'0'} />
+            <CalculatorButton text={'AC'} onButtonPress={ this.onButtonPress } />
+            <CalculatorButton text={'7'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'4'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'1'} onButtonPress={ this.onButtonPress }/>
           </View>
 
           <View>
-            <BlankCell />
-            <CalculatorButton text={'8'} />
-            <CalculatorButton text={'5'} />
-            <CalculatorButton text={'2'} />
+            <CalculatorButton text={plusMinusSymbol} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'8'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'5'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'2'} onButtonPress={ this.onButtonPress }/>
           </View>
 
           <View>
-            <BlankCell />
-            <CalculatorButton text={'9'} />
-            <CalculatorButton text={'6'} />
-            <CalculatorButton text={'3'} />
-            <CalculatorButton text={'.'} />
+            <CalculatorButton text={'%'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'9'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'6'} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={'3'} onButtonPress={ this.onButtonPress }/>
           </View>
 
           <View>
-            <CalculatorButton text={divisionSymbol} />
-            <CalculatorButton text={multiplicationSymbol} />
-            <CalculatorButton text={minusSymbol} />
-            <CalculatorButton text={plusSymbol} />
-            <CalculatorButton text={equalSymbol} />
+            <CalculatorButton text={divisionSymbol} onButtonPress={ this.onButtonPress } />
+            <CalculatorButton text={multiplicationSymbol} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={minusSymbol} onButtonPress={ this.onButtonPress }/>
+            <CalculatorButton text={plusSymbol} onButtonPress={ this.onButtonPress }/>
           </View>
 
         </View>
 
-      </View>
-    );
-  }
+        <View style={styles.bottomRow}>
+          <CalculatorButton text={'0'} onButtonPress={ this.onButtonPress }/>
+          <CalculatorButton text={'.'} onButtonPress={ this.onButtonPress }/>
+          <CalculatorButton text={equalSymbol} onButtonPress={ this.onButtonPress } />
+        </View>
+
+    </View>
+  );
+}
 
 });
 
 var CalculatorButton = React.createClass({
-  render: function () {
-    return (
-      <TouchableHighlight
-        style={[styles.button, this.props.text === '0' && styles.zeroButton]}
-        onPress={this._onPressButton}>
+render: function () {
+  return (
+    <TouchableHighlight
+      style={[styles.button,
+              this.props.text === '0' && styles.zeroButton,
+      ]}
+      onPress={this.props.onButtonPress.bind(this, this.props.text)}>
 
-        <View>
+      <View>
           <Text style={styles.buttonText}>
             {this.props.text}
           </Text>
@@ -83,10 +95,6 @@ var CalculatorButton = React.createClass({
 
       </TouchableHighlight>
     );
-  },
-
-  _onPressButton: function () {
-    console.log(this.props.text);
   }
 });
 
@@ -99,34 +107,37 @@ var BlankCell = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     alignItems: 'center'
   },
   buttonPad: {
     flex: 1,
-    width: 245,
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexDirection: 'row'
   },
   blankCell: {
     width: 50,
-    height: 50,
-    margin: 5
+    height: 50
   },
   button: {
     width: 50,
     height: 50,
-    margin: 5,
     borderWidth: 1,
     borderColor: 'black',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'lightgray'
   },
   buttonText: {
-    fontSize: 25
+    fontSize: 25,
+  },
+  bottomRow: {
+    flex: 1,
+    marginTop: -210,
+    flexDirection: 'row'
   },
   zeroButton: {
-    // width: 100,
+    width: 100,
+    alignItems: 'flex-start',
+    paddingLeft: 18
   },
   display: {
     textAlign: 'right',
